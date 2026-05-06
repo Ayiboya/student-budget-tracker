@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | CampusWallet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { justify-content: center; align-items: center; }
+        .auth-card { width: 100%; max-width: 400px; padding: 2rem; }
+    </style>
+</head>
+<body>
+    <div class="glass-card auth-card">
+        <h1 style="text-align: center; margin-bottom: 2rem;">
+            <i class="fas fa-wallet" style="color: var(--accent);"></i> CampusWallet
+        </h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
+        </form>
+        <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+            Don't have an account? <a href="register.html" style="color: var(--accent); text-decoration: none;">Register here</a>
+        </p>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const payload = {
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value
+                };
+                const res = await fetchAPI('/login', 'POST', payload);
+                if (res && res.token) {
+                    localStorage.setItem('token', res.token);
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {} 
+        });
+    </script>
+</body>
+</html>
